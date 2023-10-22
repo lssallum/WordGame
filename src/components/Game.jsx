@@ -1,4 +1,6 @@
-import styled from "styled-components"
+import { useState, useRef } from "react";
+import styled from "styled-components";
+
 
 const GameContainer = styled.section`
   margin: 0 auto;
@@ -8,62 +10,70 @@ const GameContainer = styled.section`
   border-radius: 5px;
   padding: 50px;
 
-  div:nth-child(2){
+  div:nth-child(2) {
     display: grid;
     grid-template-columns: 2fr auto;
-    background-image: linear-gradient(45deg, rgb(255 130 100 /1) 0%, rgb(100 0 200 /1) 100%);
-    
+    background-image: linear-gradient(
+      45deg,
+      rgb(255 130 100 /1) 0%,
+      rgb(100 0 200 /1) 100%
+    );
+
     h2 {
       padding: 1rem;
       color: #fff;
     }
   }
-  div:nth-child(3){
+  div:nth-child(3) {
     font-size: 3rem;
     font-weight: 700;
     text-align: center;
     margin-top: 2rem;
 
-    span{
+    span {
       padding: 0 2rem 0 2rem;
       margin-right: 0.5rem;
       box-shadow: 0 0 4px rgb(100 100 100 / 0.6);
     }
-
   }
-  div:nth-child(4){
+  div:nth-child(4) {
     font-weight: 700;
     text-align: center;
   }
-  div:nth-child(5){
+  div:nth-child(5) {
     display: grid;
     grid-template-columns: 2fr auto;
-    background-image: linear-gradient(45deg, rgb(255 130 100 /1) 0%, rgb(100 0 200 /1) 100%);
+    background-image: linear-gradient(
+      45deg,
+      rgb(255 130 100 /1) 0%,
+      rgb(100 0 200 /1) 100%
+    );
     padding: 0.5rem 1rem 0.5rem 0.5rem;
-    h3{color: #fff;}
+    h3 {
+      color: #fff;
+    }
   }
 `;
 
 const FormLetters = styled.form`
-
   input {
     width: 46px;
     height: 48px;
     margin-right: 10px;
-    border: 2px solid #CCC;
+    border: 2px solid #ccc;
     text-align: center;
     font-size: 1rem;
     font-weight: 700;
     text-transform: lowercase;
   }
   button {
-  padding: 0;
-  width: 50px;
-  height: 50px;
+    padding: 0;
+    width: 50px;
+    height: 50px;
   }
 `;
 
-const Game = ({ 
+const Game = ({
   verifyLetter,
   choosenWord,
   choosenCategory,
@@ -71,35 +81,63 @@ const Game = ({
   guessedLetters,
   wrongLetters,
   guesses,
-  score
- }) => {
+  score,
+}) => {
+  const [letter, setLetter] = useState("");
+  const letterInputRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    verifyLetter(letter);
+
+    setLetter("");
+    letterInputRef.current.focus();
+  };
+
   return (
     <GameContainer>
-      <div><h1>ENCONTRE A PALAVRA OCULTA</h1></div>
+      <div>
+        <h1>ENCONTRE A PALAVRA OCULTA</h1>
+      </div>
       <div>
         <h2>Dica: {choosenCategory}</h2>
         <h2>Pontuação: {score}</h2>
       </div>
       <div>
-        {letters.map((e,i) =>(
-          guessedLetters.includes(e)
-            ? ( <span key={i}>{e}</span> )
-            : ( <span key={i}>&nbsp;</span> )
-        ))}
+        {letters.map((e, i) =>
+          guessedLetters.includes(e) ? (
+            <span key={i}>{e}</span>
+          ) : (
+            <span key={i}>&nbsp;</span>
+          )
+        )}
       </div>
       <div>
-        <FormLetters>
-          <input type="text" name="letter" maxLength="1" required/>
+        <FormLetters onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="letter"
+            maxLength="1"
+            required
+            onChange={(e) => setLetter(e.target.value)}
+            value={letter}
+            ref={letterInputRef}
+          />
           <button>+</button>
         </FormLetters>
       </div>
       <div>
-        <h3>Letras utilizadas: AB</h3>
+        <h3>
+          Letras utilizadas:{" "}
+          {wrongLetters.map((e, i) => (
+            <span key={i}>{e}, </span>
+          ))}
+        </h3>
         <h3>Tentativas restantes: {guesses}</h3>
       </div>
-      <div><button onClick={verifyLetter}>Finalizar</button></div>
     </GameContainer>
-  )
-}
+  );
+};
 
-export default Game
+export default Game;

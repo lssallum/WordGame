@@ -11,15 +11,17 @@
   color: rgb(31 31 31);
 }
 
-::selection, ::-moz-selection {
+::selection,
+::-moz-selection {
   color: #FFF;
   background-color: rgb(255 130 100 /1);
 }
+
 h1 {
   color: transparent;
   background-image: linear-gradient(45deg, rgb(255 130 100 /1) 0%, rgb(100 0 200 /1) 100%);
   background-clip: text;
-  
+
 }
 
 h1 {
@@ -42,7 +44,8 @@ button {
   cursor: pointer;
 }
 
-button::before, button::after {
+button::before,
+button::after {
   content: "";
   position: absolute;
   top: 0;
@@ -57,7 +60,8 @@ button::before, button::after {
   overflow: hidden;
 }
 
-button:hover::before, button:hover::after {
+button:hover::before,
+button:hover::after {
   opacity: 1;
 }
 

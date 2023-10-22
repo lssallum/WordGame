@@ -4,11 +4,11 @@ const EndContainer = styled.section`
   text-align: center;
 `;
 
-const End = ({reboot}) => {
+const End = ({reboot, score}) => {
   return (
     <EndContainer>
-      <h1>VOCÊ PERDEU!</h1>
-      <p>Não desanime, tente novamente</p>
+      <h1>FIM DE JOGO!</h1>
+      <p>Sua pontuação foi {score}</p>
       <button onClick={reboot}>REINICIAR</button>
     </EndContainer>
   );
